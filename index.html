@@ -4,6 +4,8 @@
 <head>
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <link rel="stylesheet" href="css/styles.css">
+  <!-- Set viewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Restaurant Reviews</title>
 </head>
 
@@ -16,9 +18,10 @@
 
   <main id="maincontent">
     <section id="map-container">
+      <h2>Map</h2>
       <div id="map"></div>
     </section>
-    <section>
+    <!-- <section id="filters"> -->
       <div class="filter-options">
         <h2>Filter Results</h2>
         <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
@@ -28,13 +31,17 @@
           <option value="all">All Cuisines</option>
         </select>
       </div>
+    <!-- </section> -->
+    <!-- add section with flex box .container for restaurant list -->
+    <!-- <section class="container"> -->
+      <h2>Restaurants</h2>
       <ul id="restaurants-list"></ul>
-    </section>
+    <!--</section> -->
   </main>
 
   <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places&callback=initMap"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9u8jvLe4jCSdwm9voWimcTRb5owbqht4&libraries=places&callback=initMap"></script>
 
 
   <footer id="footer">
