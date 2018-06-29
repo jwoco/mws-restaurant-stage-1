@@ -4,6 +4,19 @@ let restaurants,
 var map
 var markers = []
 
+/* Register service worker. Service worker functions are in sw.js file in this project. */
+const registerServiceWorker = function() {
+  if(!navigator.serviceWorker)return;
+
+  navigator.serviceWorker.register('../sw.js').then(function(){
+    console.log('Registration worked!');
+  }).catch(function() {
+    console.log('Registration failed!');
+  });
+};
+registerServiceWorker();
+
+
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
