@@ -10,12 +10,12 @@ self.addEventListener('install', function(event) {
 				'restaurant.html',
 				'/css/styles.css',
 				'data/restaurants.json',
-				'/img/*.*',
+				/* '/img/*.*', */
 				'js/main.js',
 				'js/dbhelper.js',
 				'js/restaurant_info.js',
 				'sw.js',
-				'//normalize-css.googlecode.com/svn/trunk/normalize.css',
+			    'normalize-css.googlecode.com/svn/trunk/normalize.css',
 				'https://fonts.googleapis.com/css?family=Roboto:300,400,500'
 				]);
 		})
@@ -24,6 +24,9 @@ self.addEventListener('install', function(event) {
 
 /* hijack the request and if offline, servce the response from the cache*/
 self.addEventListener('fetch', function(event) {
+	if(cacheUrlObj.hostname !== "localhost") {
+		event.request.mode = "no-cors";
+	}
 	event.respondWith(
 		caches.match(event.request).then(function(response) {
 			if (response) return response;
