@@ -9,8 +9,10 @@ class DBHelper {
    */
   static get DATABASE_URL() {
     /*const port = 8000; // Change this to your server port */
-    return "http://127.0.0.1:8000/data/restaurants.json"; //was set to localhost and in single quotes
+    /* return "http://127.0.0.1:8000/data/restaurants.json"; //was set to localhost and in single quotes */
+    return "http://localhost:1337/restaurants"; //pull from mws2-restaurants server
   }
+
 
   /**
    * Fetch all restaurants.
@@ -18,10 +20,17 @@ class DBHelper {
   static fetchRestaurants(callback) {
     let xhr = new XMLHttpRequest();
     xhr.open('GET', DBHelper.DATABASE_URL);
+
+    console.log(xhr.responseText);
+
     xhr.onload = () => {
       if (xhr.status === 200) { // Got a success response from server!
+        console.log(xhr.status); // Log status for test
         const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
+        console.log(json);
+        const restaurants = json; // use for mws2
+        /* const restaurants = json.restaurants; commented out for mws2 */
+        console.log(restaurants); // log status
         callback(null, restaurants);
       } else { // Oops!. Got an error from server.
         const error = (`Request failed. Returned status of ${xhr.status}`);
@@ -147,10 +156,10 @@ class DBHelper {
   }
 
   /**
-   * Restaurant image URL.
+   * Restaurant image URL. For mws2 - changed to " ./img ..." are images coming from local rather than from 1337 server??
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+    return (`./img/${restaurant.photograph}.jpg`);
   }
 
   /**
