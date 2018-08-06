@@ -5,6 +5,7 @@ var map
 var markers = []
 
 /* Register service worker. Service worker functions are in sw.js file in this project. */
+/*
 const registerServiceWorker = function() {
   if(!navigator.serviceWorker)return;
 
@@ -14,7 +15,7 @@ const registerServiceWorker = function() {
     console.log('Registration failed!');
   });
 };
-registerServiceWorker();
+registerServiceWorker(); */
 
 
 /**

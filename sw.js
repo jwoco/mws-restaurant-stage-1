@@ -10,7 +10,7 @@
 				'index.html',
 				'restaurant.html',
 				'/css/styles.css',
-				'data/restaurants.json',
+				'data/restaurants.json', //remove for mws2
 				/* '/img/*.*', */
 				/* 'js/main.js',
 				'js/dbhelper.js',
@@ -24,14 +24,14 @@
 });  */
 
 /* hijack the request and if offline, servce the response from the cache*/
-self.addEventListener('fetch', function(event) {
+//self.addEventListener('fetch', function(event) {
 	/* if(cacheUrlObj.hostname !== "localhost") {
 		event.request.mode = "no-cors";
 	} */
-	event.respondWith(
+	//event.respondWith(
 		/* caches.match(event.request).then(function(response) */ {
-			if (response) return response;
-			return fetch(event.request);
-		})
-	);
-});
+		//	if (response) return response;
+		//	return fetch(event.request);
+		//})
+	//);
+//

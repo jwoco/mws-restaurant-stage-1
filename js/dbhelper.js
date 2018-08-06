@@ -13,10 +13,30 @@ class DBHelper {
     return "http://localhost:1337/restaurants"; //pull from mws2-restaurants server
   }
 
+/*  From Medium article on using Jake's IDB file
+class DBHelper {
+  static openDatabase() {
+  if (!navigator.serviceWorker) {
+    return Promise.resolve();
+  }
+
+  return idb.open('rr', 1, function(upgradeDB) {
+    var store = upgradeDB.createObjectStore('restaurants', {
+      keypath: 'id'
+    });
+    store.createIndex('by-id', 'id', );
+  })
+  }
+}
+
+*/
 
   /**
    * Fetch all restaurants.
    */
+
+/* Using XMLHttpRequest */
+/*
   static fetchRestaurants(callback) {
     let xhr = new XMLHttpRequest();
     xhr.open('GET', DBHelper.DATABASE_URL);
@@ -30,7 +50,7 @@ class DBHelper {
         console.log(json);
         const restaurants = json; // use for mws2
         /* const restaurants = json.restaurants; commented out for mws2 */
-        console.log(restaurants); // log status
+     /*  console.log(restaurants); // log status
         callback(null, restaurants);
       } else { // Oops!. Got an error from server.
         const error = (`Request failed. Returned status of ${xhr.status}`);
@@ -38,6 +58,32 @@ class DBHelper {
       }
     };
     xhr.send();
+  } */
+
+  /* open db - from medium artil on using Jake's idb file
+  const dbPromise = DbHelper.openDatabase(); */
+
+/* Using Fetch */
+
+static fetchRestaurants(callback) {
+    fetch("http://localhost:1337/restaurants")
+    .then(function(response) {
+      return response.json()
+    })
+    //.then(response => response.json())
+     .then(data => {
+      console.log('data', data);
+      const restaurants = data;
+      console.log('Restaurants', restaurants);
+      callback(null, restaurants);
+     })
+     //.then(addToRestaurants);
+     //.then(response => console.log('Success:', response))
+     // .then(function(addToRestaurants) {
+     //   const restaurants = data;
+    // })
+    // console.log('Restaurants:', restaurants);
+    //debugger;
   }
 
   /**
@@ -51,6 +97,7 @@ class DBHelper {
       } else {
         const restaurant = restaurants.find(r => r.id == id);
         if (restaurant) { // Got the restaurant
+          console.log(restaurant);
           callback(null, restaurant);
         } else { // Restaurant does not exist in the database
           callback('Restaurant does not exist', null);
