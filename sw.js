@@ -1,6 +1,19 @@
 /* This file contains the functions used by the serviceworker to display app when offline.   */
 
+/* Specify idb database schema */
+
+
+
+/* Open connection to idb database */
+
+idb.open('mws2db', 1, function(upgradeDb) {
+	var keyValStore = upgradeDb.createObjectStore('keyval');
+	keyValStore.put('world','hello');
+});
+
 /* Create the cache and add resoources */
+
+/* Retrieve and update data */
 
 /* self.addEventListener('install', function(event) {
 	event.waitUntil(
