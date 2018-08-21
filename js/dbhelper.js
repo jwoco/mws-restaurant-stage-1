@@ -13,23 +13,27 @@ class DBHelper {
     return "http://localhost:1337/restaurants"; //pull from mws2-restaurants server
   }
 
-/*  From Medium article on using Jake's IDB file
-class DBHelper {
-  static openDatabase() {
+/*  From Medium article on using Jake's IDB file with suggestions from Slack user 'solittletime'
+//class DBHelper { */
+static openDatabase() {
   if (!navigator.serviceWorker) {
-    return Promise.resolve();
+   return Promise.resolve();
   }
+
+  //return idb.open('mws2db', 1, function(upgradeDb) {
+  //var keyValStore = upgradeDb.createObjectStore('keyval');
+  //keyValStore.put('world','hello');
+//});
 
   return idb.open('rr', 1, function(upgradeDB) {
     var store = upgradeDB.createObjectStore('restaurants', {
-      keypath: 'id'
+     keypath: 'id'
     });
     store.createIndex('by-id', 'id', );
-  })
-  }
+  });
 }
+//}
 
-*/
 
   /**
    * Fetch all restaurants.
@@ -60,8 +64,8 @@ class DBHelper {
     xhr.send();
   } */
 
-  /* open db - from medium artil on using Jake's idb file
-  const dbPromise = DbHelper.openDatabase(); */
+  /* open db - from medium article on using Jake's idb file */
+  // DbHelper.openDatabase();
 
 /* Using Fetch */
 
@@ -85,6 +89,33 @@ static fetchRestaurants(callback) {
     // console.log('Restaurants:', restaurants);
     //debugger;
   }
+
+  /*  From Medium article on using Jake's IDB file */
+//class DBHelper {
+//static openDatabase() {
+  //if (!navigator.serviceWorker) {
+   // return Promise.resolve();
+  //}
+
+  //return idb.open('restsdb', 1, function(upgradeDb) {
+  // var keyValStore = upgradeDb.createObjectStore('keyval');
+  // keyValStore.put('world','hello');
+//}).catch(error);
+
+  //return idb.open('restsdb', 1, function(upgradeDB) {
+
+  //  var store = upgradeDB.createObjectStore('restaurants', {
+   //   keyPath: 'id'
+   // });
+   // store.createIndex('by-id', 'id', );
+  //})
+  //}
+//}
+
+
+
+/* open db - from medium article on using Jake's idb file */
+  //const dbPromise = DbHelper.openDatabase();
 
   /**
    * Fetch a restaurant by its ID.
@@ -224,3 +255,5 @@ static fetchRestaurants(callback) {
   }
 
 }
+
+const dbPromise = DBHelper.openDatabase(); //why would this not run in sw.js ??

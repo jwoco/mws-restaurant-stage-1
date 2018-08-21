@@ -1,3 +1,4 @@
+/* Jake Archibald's IDB file */
 'use strict';
 
 (function() {

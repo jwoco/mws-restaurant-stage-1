@@ -1,50 +1,64 @@
 /* This file contains the functions used by the serviceworker to display app when offline.   */
 
-/* Specify idb database schema */
+//importScripts('js/idb.js');
 
-
-
-/* Open connection to idb database */
-
-idb.open('mws2db', 1, function(upgradeDb) {
-	var keyValStore = upgradeDb.createObjectStore('keyval');
-	keyValStore.put('world','hello');
-});
 
 /* Create the cache and add resoources */
 
-/* Retrieve and update data */
+/* Retrieve cached files */
 
-/* self.addEventListener('install', function(event) {
+self.addEventListener('install', function(event) {
 	event.waitUntil(
 		caches.open('mws-restaurants-v1').then(function(cache) {
 			return cache.addAll([
-				'/',
+				//'/skeleton',
 				'index.html',
 				'restaurant.html',
 				'/css/styles.css',
-				'data/restaurants.json', //remove for mws2
-				/* '/img/*.*', */
-				/* 'js/main.js',
+				'js/main.js',
 				'js/dbhelper.js',
 				'js/restaurant_info.js',
-				'sw.js',
-			    'normalize-css.googlecode.com/svn/trunk/normalize.css',
-				'https://fonts.googleapis.com/css?family=Roboto:300,400,500'
+				'js/idb.js',
+				'sw.js'
+			    //'normalize-css.googlecode.com/svn/trunk/normalize.css',
+				//'https://fonts.googleapis.com/css?family=Roboto:300,400,500'
 				]);
 		})
 	);
-});  */
+});
 
-/* hijack the request and if offline, servce the response from the cache*/
-//self.addEventListener('fetch', function(event) {
-	/* if(cacheUrlObj.hostname !== "localhost") {
-		event.request.mode = "no-cors";
-	} */
-	//event.respondWith(
-		/* caches.match(event.request).then(function(response) */ {
-		//	if (response) return response;
-		//	return fetch(event.request);
-		//})
-	//);
-//
+/* Specify idb database schema */
+
+//const dbPromise = DBHelper.openDatabase();
+
+/* function createDB() {
+  idb.open('test', 1, function(upgradeDB) {
+    var store = upgradeDB.createObjectStore('beverages', {
+      keypath: 'id'
+    });
+    store.put({id: 123, name: 'coke'});
+  });
+  //return store;
+}
+
+/* Open connection to idb database */
+
+/* self.addEventListener('activate', function(event) {
+	event.waitUntil(
+		createDB()
+		);
+	console.log('db created');
+});
+
+/* hijack the request and if offline, service the response from the cache*/
+self.addEventListener('fetch', function(event) {
+	 //if(cacheUrlObj.hostname !== "localhost") {
+	//	event.request.mode = "no-cors";
+	//}
+	event.respondWith(
+		caches.match(event.request).then(function(response) {
+			if (response) return response;
+			return fetch(event.request);
+		})
+	);
+})
