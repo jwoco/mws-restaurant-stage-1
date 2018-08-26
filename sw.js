@@ -1,8 +1,5 @@
 /* This file contains the functions used by the serviceworker to display app when offline.   */
 
-//importScripts('js/idb.js');
-
-
 /* Create the cache and add resoources */
 
 /* Retrieve cached files */
@@ -11,7 +8,7 @@ self.addEventListener('install', function(event) {
 	event.waitUntil(
 		caches.open('mws-restaurants-v1').then(function(cache) {
 			return cache.addAll([
-				//'/skeleton',
+				'/',
 				'index.html',
 				'restaurant.html',
 				'/css/styles.css',
@@ -19,7 +16,7 @@ self.addEventListener('install', function(event) {
 				'js/dbhelper.js',
 				'js/restaurant_info.js',
 				'js/idb.js',
-				'sw.js'
+				//'sw.js'
 			    //'normalize-css.googlecode.com/svn/trunk/normalize.css',
 				//'https://fonts.googleapis.com/css?family=Roboto:300,400,500'
 				]);
@@ -27,32 +24,13 @@ self.addEventListener('install', function(event) {
 	);
 });
 
-/* Specify idb database schema */
 
-//const dbPromise = DBHelper.openDatabase();
 
-/* function createDB() {
-  idb.open('test', 1, function(upgradeDB) {
-    var store = upgradeDB.createObjectStore('beverages', {
-      keypath: 'id'
-    });
-    store.put({id: 123, name: 'coke'});
-  });
-  //return store;
-}
+/* hijack the request and if offline, service the response from the cache */
 
-/* Open connection to idb database */
 
-/* self.addEventListener('activate', function(event) {
-	event.waitUntil(
-		createDB()
-		);
-	console.log('db created');
-});
-
-/* hijack the request and if offline, service the response from the cache*/
 self.addEventListener('fetch', function(event) {
-	 //if(cacheUrlObj.hostname !== "localhost") {
+	 //if(cachesUrlObj.hostname !== "localhost") {
 	//	event.request.mode = "no-cors";
 	//}
 	event.respondWith(
@@ -61,4 +39,7 @@ self.addEventListener('fetch', function(event) {
 			return fetch(event.request);
 		})
 	);
+	//event.respondWith(
+		//return dbPromise);
+
 })

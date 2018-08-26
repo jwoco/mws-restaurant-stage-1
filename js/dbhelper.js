@@ -13,61 +13,7 @@ class DBHelper {
     return "http://localhost:1337/restaurants"; //pull from mws2-restaurants server
   }
 
-/*  From Medium article on using Jake's IDB file with suggestions from Slack user 'solittletime'
-//class DBHelper { */
-static openDatabase() {
-  if (!navigator.serviceWorker) {
-   return Promise.resolve();
-  }
-
-  //return idb.open('mws2db', 1, function(upgradeDb) {
-  //var keyValStore = upgradeDb.createObjectStore('keyval');
-  //keyValStore.put('world','hello');
-//});
-
-  return idb.open('rr', 1, function(upgradeDB) {
-    var store = upgradeDB.createObjectStore('restaurants', {
-     keypath: 'id'
-    });
-    store.createIndex('by-id', 'id', );
-  });
-}
-//}
-
-
-  /**
-   * Fetch all restaurants.
-   */
-
-/* Using XMLHttpRequest */
-/*
-  static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-
-    console.log(xhr.responseText);
-
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        console.log(xhr.status); // Log status for test
-        const json = JSON.parse(xhr.responseText);
-        console.log(json);
-        const restaurants = json; // use for mws2
-        /* const restaurants = json.restaurants; commented out for mws2 */
-     /*  console.log(restaurants); // log status
-        callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
-      }
-    };
-    xhr.send();
-  } */
-
-  /* open db - from medium article on using Jake's idb file */
-  // DbHelper.openDatabase();
-
-/* Using Fetch */
+/* Using Fetch to get restaurant data from mws2 server */
 
 static fetchRestaurants(callback) {
     fetch("http://localhost:1337/restaurants")
@@ -80,42 +26,53 @@ static fetchRestaurants(callback) {
       const restaurants = data;
       console.log('Restaurants', restaurants);
       callback(null, restaurants);
-     })
-     //.then(addToRestaurants);
-     //.then(response => console.log('Success:', response))
-     // .then(function(addToRestaurants) {
-     //   const restaurants = data;
-    // })
-    // console.log('Restaurants:', restaurants);
-    //debugger;
+     }).catch(function () {      // if no restaurants from server, get restaurants from IDB
+      console.log("You are offline");
+      dbPromise.then(db => {
+        const tx = db.transaction('restaurants','readwrite');
+        const store = tx.objectStore('restaurants');
+        return store.getAll();
+        }).then(restaurants => {
+        callback(null, restaurants);
+        console.log('Rests', restaurants)
+      })
+      //console.log('Restaurants', restaurants);
+     });
   }
 
-  /*  From Medium article on using Jake's IDB file */
-//class DBHelper {
-//static openDatabase() {
-  //if (!navigator.serviceWorker) {
-   // return Promise.resolve();
-  //}
+  /*  From Medium article on using Jake's IDB file with suggestions from Slack user 'solittletime'
+//class DBHelper { */
+static openDatabase() {
+  if (!navigator.serviceWorker) {
+   return Promise.resolve();
+  }
 
-  //return idb.open('restsdb', 1, function(upgradeDb) {
-  // var keyValStore = upgradeDb.createObjectStore('keyval');
-  // keyValStore.put('world','hello');
-//}).catch(error);
-
-  //return idb.open('restsdb', 1, function(upgradeDB) {
-
-  //  var store = upgradeDB.createObjectStore('restaurants', {
-   //   keyPath: 'id'
-   // });
-   // store.createIndex('by-id', 'id', );
-  //})
-  //}
-//}
+  return idb.open('restaurantsdb', 1, function(upgradeDB) {
+    const store = upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
+    store.createIndex('by-id', 'id' );
+    DBHelper.addRestaurantstoIDB();
+  });
+}
 
 
+static addRestaurantstoIDB() {
+  DBHelper.fetchRestaurants((error, restaurants) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        //restaurants => {
+          dbPromise.then(db => {
+           const tx = db.transaction('restaurants', 'readwrite');
+           const store = tx.objectStore('restaurants');
+           restaurants.forEach(function (restaurant) {
+            store.put(restaurant);
+            });
+           return tx.complete;
+          });
+        }
+  })
+}
 
-/* open db - from medium article on using Jake's idb file */
-  //const dbPromise = DbHelper.openDatabase();
 
   /**
    * Fetch a restaurant by its ID.
