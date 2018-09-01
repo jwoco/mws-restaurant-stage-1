@@ -1,0 +1,15 @@
+{
+	"short_name" : "NYC eats",
+	"name" : "Favorite NYC restaurants",
+	"start_url" : "/mws-restaurant-stage-1/index.html",
+	"display" : "standalone",
+	"icons" : [
+		"144" , "/mws-restaurant-stage-1/img/tj-dragotta-578715-unsplash-144.jpg",
+		"192" , "/mws-restaurant-stage-1/img/tj-dragotta-578715-unsplash-192.jpg",
+		"512" , "/mws-restaurant-stage-1/ing/tj-dragotta-57815-unsplash-512.jpg"
+		],
+	"scope" : "/mws-restaurant-stage-1/index.html",
+	"theme_color" :  "#fdfdfd"
+}
+
+

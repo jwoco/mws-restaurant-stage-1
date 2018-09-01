@@ -19,8 +19,8 @@ static fetchRestaurants(callback) {
     fetch("http://localhost:1337/restaurants")
     .then(function(response) {
       return response.json()
-    })
-    //.then(response => response.json())
+    });
+    //.then(response => response.json()) - used when data in local json file
      .then(data => {
       console.log('data', data);
       const restaurants = data;
@@ -35,8 +35,7 @@ static fetchRestaurants(callback) {
         }).then(restaurants => {
         callback(null, restaurants);
         console.log('Rests', restaurants)
-      })
-      //console.log('Restaurants', restaurants);
+      });
      });
   }
 
@@ -45,7 +44,7 @@ static fetchRestaurants(callback) {
 static openDatabase() {
   if (!navigator.serviceWorker) {
    return Promise.resolve();
-  }
+  };
 
   return idb.open('restaurantsdb', 1, function(upgradeDB) {
     const store = upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
@@ -70,7 +69,7 @@ static addRestaurantstoIDB() {
            return tx.complete;
           });
         }
-  })
+  });
 }
 
 
@@ -194,10 +193,11 @@ static addRestaurantstoIDB() {
    * Restaurant image URL. For mws2 - changed to " ./img ..." are images coming from local rather than from 1337 server??
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`./img/${restaurant.photograph}.jpg`);
+    //return (`./img/${restaurant.photograph}.jpg`);
+      return (`/img/${restaurant.id}.jpg`);
   }
 
-  /**
+  /*
    * Map marker for a restaurant.
    */
   static mapMarkerForRestaurant(restaurant, map) {
@@ -212,5 +212,6 @@ static addRestaurantstoIDB() {
   }
 
 }
+/* create variable to run and store IDB data */
 
 const dbPromise = DBHelper.openDatabase(); //why would this not run in sw.js ??
