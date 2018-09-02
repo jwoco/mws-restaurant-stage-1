@@ -19,7 +19,7 @@ static fetchRestaurants(callback) {
     fetch("http://localhost:1337/restaurants")
     .then(function(response) {
       return response.json()
-    });
+    })
     //.then(response => response.json()) - used when data in local json file
      .then(data => {
       console.log('data', data);
