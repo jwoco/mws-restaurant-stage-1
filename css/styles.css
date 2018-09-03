@@ -182,7 +182,7 @@ nav h1 a {
   max-width: 100%;
   /* change min-height from 248px to auto for better aspect ratio when changin viewport size*/
   min-height: auto;
-  min-width: 100%;
+  min-width: 50%;
 }
 #restaurants-list li h1 {
   color: #f18200;

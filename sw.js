@@ -18,12 +18,12 @@ self.addEventListener('install', function(event) {
 				'js/dbhelper.js',
 				'js/restaurant_info.js',
 				'js/idb.js',
-				//'sw.js'
+				'sw.js'
 			    //'normalize-css.googlecode.com/svn/trunk/normalize.css',
 				//'https://fonts.googleapis.com/css?family=Roboto:300,400,500'
 				]);
-		});
-	);
+		})
+	)
 });
 
 
@@ -38,7 +38,6 @@ self.addEventListener('fetch', function(event) {
 		caches.match(event.request).then(function(response) {
 			if (response) return response;
 			return fetch(event.request);
-		});
-	);
-
+		})
+	)
 })

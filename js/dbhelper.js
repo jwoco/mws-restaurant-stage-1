@@ -26,7 +26,8 @@ static fetchRestaurants(callback) {
       const restaurants = data;
       console.log('Restaurants', restaurants);
       callback(null, restaurants);
-     }).catch(function () {      // if no restaurants from server, get restaurants from IDB
+     })
+     .catch(function () {      // if no restaurants from server, get restaurants from IDB
       console.log("You are offline");
       dbPromise.then(db => {
         const tx = db.transaction('restaurants','readwrite');
@@ -34,9 +35,9 @@ static fetchRestaurants(callback) {
         return store.getAll();
         }).then(restaurants => {
         callback(null, restaurants);
-        console.log('Rests', restaurants)
-      });
-     });
+        console.log('Rests', restaurants);
+        })
+      })
   }
 
   /*  From Medium article on using Jake's IDB file with suggestions from Slack user 'solittletime'
