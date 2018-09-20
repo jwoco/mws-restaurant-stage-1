@@ -1,6 +1,7 @@
 let restaurants,
   neighborhoods,
-  cuisines
+  cuisines,
+  reviews //add for stage 3
 var map
 var markers = []
 
@@ -17,6 +18,10 @@ const registerServiceWorker = function() {
 };
 registerServiceWorker();
 
+
+/* Fetch reviews - added for stage 3 */
+
+//DBHelper.fetchReviews();
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.

@@ -22,7 +22,7 @@ static fetchRestaurants(callback) {
     })
     //.then(response => response.json()) - used when data in local json file
      .then(data => {
-      console.log('data', data);
+      //console.log('data', data);
       const restaurants = data;
       console.log('Restaurants', restaurants);
       callback(null, restaurants);
@@ -39,6 +39,24 @@ static fetchRestaurants(callback) {
         })
       })
   }
+
+/* added for stage 3 - reviews are served separately from restaurants */
+    static fetchReviews(callback) {
+    fetch("http://localhost:1337/reviews/?restaurant-id=${id}")
+    //fetch("http://localhost:1337/reviews/?restaurant-id=8")
+     //./restaurant.html?id=${restaurant.id}
+    .then(function(response) {
+      return response.json()
+    })
+    .then(data => {
+      const reviews = data;
+      console.log('Reviews', reviews);
+      callback(null, reviews);
+      //return(reviews);
+    })
+    //console.log(typeof callback);
+  }
+
 
   /*  From Medium article on using Jake's IDB file with suggestions from Slack user 'solittletime'
 //class DBHelper { */
@@ -89,6 +107,25 @@ static addRestaurantstoIDB() {
           callback(null, restaurant);
         } else { // Restaurant does not exist in the database
           callback('Restaurant does not exist', null);
+        }
+      }
+    });
+  }
+
+  /* Fetch a review by its ID */
+
+  static fetchReviewById(id, callback) {
+      //fetch all reviews for restaurant id with proper error handling
+    DBHelper.fetchReviews((error, reviews) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        //const reviews = reviews.find(r => r.id == id);
+        if (reviews) { //Got the review
+          console.log(reviews);
+          callback(null, reviews);
+        } else {
+          callback('No reviews yet!', null);
         }
       }
     });
@@ -189,6 +226,13 @@ static addRestaurantstoIDB() {
   static urlForRestaurant(restaurant) {
     return (`./restaurant.html?id=${restaurant.id}`);
   }
+
+/**
+  * Review page URL. mws3
+  */
+  //static urlForReviews(reviews) {
+    //return ('./restaurant.html?id=${restaurant.id}')
+  //}
 
   /**
    * Restaurant image URL. For mws2 - changed to " ./img ..." are images coming from local rather than from 1337 server??

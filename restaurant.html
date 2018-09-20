@@ -49,7 +49,27 @@
     <!-- Beginning reviews -->
     <section id="reviews-container" aria-label="reviews">
       <ul id="reviews-list"></ul>
+    <!-- </section> -->
+    <section id="reviews-form" aria-label="reviews form">
+      <h3>Add your review</h3>
+      <form action="http://localhost:1337/reviews" method="post" class="reviews-form">
+        <label for="first-name">First name </label>
+        <input id="first-name" name="firstname" type="text" />
+        <label for="rating">Rating</label>
+        <select id="rating" name="rating">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <label for="comments">Comments </label>
+        <textarea id="comments" name="comments"> </textarea>
+        <button>Submit</button>
+      </form>
     </section>
+
+  </section>
     <!-- End reviews -->
   </main>
   <!-- End main -->

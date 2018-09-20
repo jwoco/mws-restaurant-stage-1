@@ -265,7 +265,7 @@ nav h1 a {
   text-transform: uppercase;
 	width: 90%;
 }
-#restaurant-container, #reviews-container {
+#restaurant-container, #reviews-container, #reviews-form {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
   padding: 40px 40px 30px;
@@ -322,6 +322,10 @@ nav h1 a {
     grid-column: 1 / span 4;
     order: 2;
   }
+  #reviews-form {
+    grid-column: 1 / span 4;
+    order: 3;
+  }
 }
 @media screen and (min-width: 599px) {
   #map-container {
@@ -341,6 +345,10 @@ nav h1 a {
   #reviews-container {
     grid-column: 1 / span 4;
     order: 2;
+  }
+  #reviews-form {
+    grid-column: 1 / span 4;
+    order: 3;
   }
 }
 @media screen and (min-width: 800px) {

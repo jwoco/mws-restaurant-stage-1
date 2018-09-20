@@ -1,4 +1,6 @@
 let restaurant;
+let reviews //= DBHelper.fetchReviews(); // add for mws3, need to run fucntion to fetch reviews
+//console.log(reviews); //test
 var map;
 
 /**
@@ -45,6 +47,38 @@ fetchRestaurantFromURL = (callback) => {
   }
 }
 
+/* Get reviews for current restaurant */
+
+//let id = self.restaurant.id;
+//let reviews = DBHelper.fetchReviews(self.restaurant.id);
+//console.log('Reviews', reviews)
+
+/* For mws3, get reviews from URL */
+
+fetchReviewFromURL = (callback) => {
+  if (self.review) { // review already fetched !
+    callback(null, self.review)
+    return;
+  }
+  const id = getParameterByName('id');
+  if (!id) { // no id found in URL
+    error = 'No reviews yet!'
+    callback(error, null);
+  } else {
+    DBHelper.fetchReviewsByID(id, (error, reviews) => {
+      self.reviews = reviews;
+      console.log(self.reviews);
+      console.log(id);
+      if (!reviews) {
+        console.error(error);
+        return;
+      }
+      fillReviewsHTML();
+      callback(null, reviews) //remove first params null
+    });
+  }
+}
+
 /**
  * Create restaurant HTML and add it to the webpage
  */
@@ -66,8 +100,16 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   if (restaurant.operating_hours) {
     fillRestaurantHoursHTML();
   }
+  console.log('id', self.restaurant.id);
   // fill reviews
-  fillReviewsHTML();
+  //if (self.restaurant.id) {
+  //  id = self.restaurant.id;
+  //  console.log(id);
+  //  reviews = DBHelper.fetchReviews(id);
+  //  console.log(reviews);
+  //}
+  //fillReviewsHTML();
+  //fetchReviewsByRestaurantId here? rather than fetching all?
 }
 
 /**
@@ -93,7 +135,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+fillReviewsHTML = (reviews = self.restaurant.id.reviews) => { // change for mws3 from self.restaurants.reviews
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
