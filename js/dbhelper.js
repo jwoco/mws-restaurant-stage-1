@@ -41,20 +41,22 @@ static fetchRestaurants(callback) {
   }
 
 /* added for stage 3 - reviews are served separately from restaurants */
-    static fetchReviews(callback) {
-    fetch("http://localhost:1337/reviews/?restaurant-id=${id}")
-    //fetch("http://localhost:1337/reviews/?restaurant-id=8")
+    static fetchReviews(id, callback) {
+    fetch("http://localhost:1337/reviews/?restaurant_id=${id}")
+    //fetch("http://localhost:1337/reviews/?restaurant-id=5")
      //./restaurant.html?id=${restaurant.id}
     .then(function(response) {
-      return response.json()
+      return response.json();
     })
-    .then(data => {
+     .then(data => {
       const reviews = data;
       console.log('Reviews', reviews);
       callback(null, reviews);
-      //return(reviews);
     })
-    //console.log(typeof callback);
+     .catch(function () {
+      console.log("Looks like a problem ...");
+     })
+    console.log(typeof callback);
   }
 
 
@@ -112,24 +114,6 @@ static addRestaurantstoIDB() {
     });
   }
 
-  /* Fetch a review by its ID */
-
-  static fetchReviewById(id, callback) {
-      //fetch all reviews for restaurant id with proper error handling
-    DBHelper.fetchReviews((error, reviews) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        //const reviews = reviews.find(r => r.id == id);
-        if (reviews) { //Got the review
-          console.log(reviews);
-          callback(null, reviews);
-        } else {
-          callback('No reviews yet!', null);
-        }
-      }
-    });
-  }
 
   /**
    * Fetch restaurants by a cuisine type with proper error handling.

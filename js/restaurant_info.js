@@ -47,38 +47,6 @@ fetchRestaurantFromURL = (callback) => {
   }
 }
 
-/* Get reviews for current restaurant */
-
-//let id = self.restaurant.id;
-//let reviews = DBHelper.fetchReviews(self.restaurant.id);
-//console.log('Reviews', reviews)
-
-/* For mws3, get reviews from URL */
-
-fetchReviewFromURL = (callback) => {
-  if (self.review) { // review already fetched !
-    callback(null, self.review)
-    return;
-  }
-  const id = getParameterByName('id');
-  if (!id) { // no id found in URL
-    error = 'No reviews yet!'
-    callback(error, null);
-  } else {
-    DBHelper.fetchReviewsByID(id, (error, reviews) => {
-      self.reviews = reviews;
-      console.log(self.reviews);
-      console.log(id);
-      if (!reviews) {
-        console.error(error);
-        return;
-      }
-      fillReviewsHTML();
-      callback(null, reviews) //remove first params null
-    });
-  }
-}
-
 /**
  * Create restaurant HTML and add it to the webpage
  */
@@ -103,13 +71,21 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   console.log('id', self.restaurant.id);
   // fill reviews
   //if (self.restaurant.id) {
-  //  id = self.restaurant.id;
+  const id = self.restaurant.id;
   //  console.log(id);
-  //  reviews = DBHelper.fetchReviews(id);
-  //  console.log(reviews);
-  //}
-  //fillReviewsHTML();
-  //fetchReviewsByRestaurantId here? rather than fetching all?
+  //DBHelper.fetchReviews(id);
+
+  DBHelper.fetchReviews(id, (error, reviews) => {
+    self.reviews = reviews;
+    console.log("Reviews", reviews);
+    if (!reviews) {
+      console.error(error);
+      return;
+    }
+    //fillReviewsHTML();
+    fillReviewsHTML();
+  });
+  console.log("Reviews", reviews);
 }
 
 /**
@@ -135,7 +111,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.restaurant.id.reviews) => { // change for mws3 from self.restaurants.reviews
+fillReviewsHTML = (reviews = self.reviews) => { // change for mws3 from self.restaurants.reviews
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
