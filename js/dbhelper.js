@@ -42,7 +42,7 @@ static fetchRestaurants(callback) {
 
 /* added for stage 3 - reviews are served separately from restaurants */
     static fetchReviews(id, callback) {
-    fetch("http://localhost:1337/reviews/?restaurant_id=${id}")
+    fetch("http://localhost:1337/reviews/?restaurant_id="+id)
     //fetch("http://localhost:1337/reviews/?restaurant-id=5")
      //./restaurant.html?id=${restaurant.id}
     .then(function(response) {
