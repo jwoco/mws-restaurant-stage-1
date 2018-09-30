@@ -1,6 +1,5 @@
 let restaurant;
-let reviews //= DBHelper.fetchReviews(); // add for mws3, need to run fucntion to fetch reviews
-//console.log(reviews); //test
+let reviews // add for mws3
 var map;
 
 /**
@@ -129,6 +128,64 @@ fillReviewsHTML = (reviews = self.reviews) => { // change for mws3 from self.res
   });
   container.appendChild(ul);
 }
+
+//addReviewfromForm = function() {
+  //if online, post to server
+
+
+  //if offline :
+  //createReviewHTML();
+  //save to local storage and mark as pending
+  //save to local storage
+  //return review
+//}
+
+/* Use FormData to bind to create review form in restaurant.html) and listen for new review; and then post - from MDN Using Form Data bound to form element */
+
+window.addEventListener("load", function () {
+  function sendData() {
+    var XHR = new XMLHttpRequest();
+
+    var FD = new FormData(form);
+
+    XHR.addEventListener("load", function(event) {
+      alert(event.target.responseText);
+    })
+    var id = self.restaurant.id;
+    XHR.open("POST", "http://localhost:1337/reviews/?restaurant_id="+id)
+
+    XHR.send(FD);
+  }
+
+  var form = document.getElementById("myReview");
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    //Add restaurant id to form data
+    //console.log("rest id", self.restaurant.id);
+    //form.append("restaurant_id", self.restaurant.id)
+
+    sendData();
+  });
+
+  //.catch (if error, then createReviewHTML with the new review data and save to localStorage)
+
+  //const data = [] => {
+    //name = form.name,
+    //rating = form.rating,
+    //comments = form.comments
+  //}
+  //const name = form.name;
+
+  //Format form data for display in app
+  /*
+  const review = [self.restaurant.id, form.name, form.rating, form.comments];
+  console.log("New review", review);
+  const json = JSON.stringify(review);
+  console.log("New review json", json);
+  createReviewHTML(json); */
+})
 
 /**
  * Create review HTML and add it to the webpage.

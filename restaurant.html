@@ -52,9 +52,10 @@
     <!-- </section> -->
     <section id="reviews-form" aria-label="reviews form">
       <h3>Add your review</h3>
-      <form action="http://localhost:1337/reviews" method="post" class="reviews-form">
-        <label for="first-name">First name </label>
-        <input id="first-name" name="firstname" type="text" />
+      <!-- <form action="http://localhost:1337/reviews" method="post" class="reviews-form"> -->
+      <form class="reviews-form" id="myReview">
+        <label for="name">First name </label>
+        <input id="name" name="name" type="text" />
         <label for="rating">Rating</label>
         <select id="rating" name="rating">
           <option value="1">1</option>
@@ -65,7 +66,7 @@
         </select>
         <label for="comments">Comments </label>
         <textarea id="comments" name="comments"> </textarea>
-        <button>Submit</button>
+        <button type="submit">Submit</button>
       </form>
     </section>
 
