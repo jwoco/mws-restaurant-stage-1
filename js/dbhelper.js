@@ -55,8 +55,15 @@ static fetchRestaurants(callback) {
     })
      .catch(function () {
       console.log("Looks like a problem ...");
+      dbPromise.then(db => {
+        const tx = db.transaction('reviews','readwrite');
+        const store = tx.objectStore('reviews');
+        return store.getAll();
+        }).then(reviews => {
+        callback(null, reviews);
+        console.log('Reviews', reviews);
      })
-    console.log(typeof callback);
+    })
   }
 
 
@@ -71,6 +78,12 @@ static openDatabase() {
     const store = upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
     store.createIndex('by-id', 'id' );
     DBHelper.addRestaurantstoIDB();
+  });
+
+  return idb.open('reviewsdb', 1, function(upgradeDB) {
+    const store = upgradeDB.createObjectStore('reviews', {keyPath: 'id'});
+    store.createIndex('by-id', 'id' );
+    DBHelper.addReviewstoIDB();
   });
 }
 
@@ -93,7 +106,24 @@ static addRestaurantstoIDB() {
   });
 }
 
+// Add reviews to IDB for offline
 
+static addReviewstoIDB() {
+  DBHelper.fetchReviews((error, reviews) => {
+      if (error) {
+        callback(error, null);
+      } else {
+          dbPromise.then(db => {
+           const tx = db.transaction('reviews', 'readwrite');
+           const store = tx.objectStore('reviews');
+           reviews.forEach(function (review) {
+            store.put(review);
+            });
+           return tx.complete;
+          });
+        }
+  });
+}
   /**
    * Fetch a restaurant by its ID.
    */

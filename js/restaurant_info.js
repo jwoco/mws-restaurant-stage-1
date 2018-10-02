@@ -155,6 +155,12 @@ window.addEventListener("load", function () {
     XHR.open("POST", "http://localhost:1337/reviews/?restaurant_id="+id)
 
     XHR.send(FD);
+    XHR.onreadystatechange = function() {
+      if (this.status=400) {
+        console.log("offline, saving review for re-post");
+        //save review
+      }
+    }
   }
 
   var form = document.getElementById("myReview");
