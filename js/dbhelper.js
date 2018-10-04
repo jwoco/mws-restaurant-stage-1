@@ -57,7 +57,7 @@ static fetchRestaurants(callback) {
       console.log("Looks like a problem ...");
       dbPromise.then(db => {
         const tx = db.transaction('reviews','readwrite');
-        const store = tx.objectStore('reviews');
+        const reviewsStore = tx.objectStore('reviews');
         return store.getAll();
         }).then(reviews => {
         callback(null, reviews);
@@ -78,13 +78,16 @@ static openDatabase() {
     const store = upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
     store.createIndex('by-id', 'id' );
     DBHelper.addRestaurantstoIDB();
-  });
-
-  return idb.open('reviewsdb', 1, function(upgradeDB) {
-    const store = upgradeDB.createObjectStore('reviews', {keyPath: 'id'});
-    store.createIndex('by-id', 'id' );
+    const reviewsStore = upgradeDB.createObjectStore('reviews', {keyPath: 'id'});
+    reviewsStore.createIndex('by-id', 'id' );
     DBHelper.addReviewstoIDB();
   });
+
+   //return idb.open('reviewsdb', 1, function(upgradeDB) {
+    //const reviewsstore = upgradeDB.createObjectStore('reviews', {keyPath: 'id'});
+    //reviewsstore.createIndex('restaurant', 'restaurant_id' );
+    //DBHelper.addReviewstoIDB();
+  //});
 }
 
 
@@ -232,6 +235,27 @@ static addReviewstoIDB() {
         callback(null, uniqueCuisines);
       }
     });
+  }
+
+//Add favorite symbol to restaurant object on the server - based on ideas from Elisa and Lorenzo's MWS project 3 walkthrough
+  static updateFav(restaurant_id, isFavorite) {
+    console.log('change status to:', isFavorite);
+    fetch('http://localhost:1337/restaurants/${restaurant_id}/?is_favorite = ${isFavorite}' , {
+      method: 'PUT'
+    })
+      .then( () => {
+        console.log('changed');
+        this.dbPromise()
+        .then( () => {
+          const tx = db.transaction('restaurants', 'readwrite');
+          const restaurantsdb = tx.objectStore('restaurants');
+          restaurantsdb.get(restaurant_id)
+           .then(restaurant => {
+            restaurant.is_favorite = isFavorite;
+            restaurantsdb.put(restaurant);
+           });
+        })
+      })
   }
 
   /**

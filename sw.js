@@ -32,7 +32,7 @@ self.addEventListener('install', function(event) {
 
 self.addEventListener('fetch', function(event) {
 	 //if(cachesUrlObj.hostname !== "localhost") {
-	//	event.request.mode = "no-cors";
+		//event.request.mode = "no-cors";
 	//}
 	event.respondWith(
 		caches.match(event.request).then(function(response) {

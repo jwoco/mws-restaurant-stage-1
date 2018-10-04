@@ -167,6 +167,32 @@ createRestaurantHTML = (restaurant) => {
   name.innerHTML = restaurant.name;
   li.append(name);
 
+  //create button for favorite - based on ideas from Elisa and Lorenzo's MWS project 3 walkthrough
+  const favorite = document.createElement('button');
+  favorite.innerHTML = 'fav';
+  favorite.classList.add("fav_btn")
+  //change status on fav
+  favorite.onclick = function() {
+    const isFavNow = !restaurant.is_favorite;
+    DBHelper.updateFavorite(restuarant_id, isFavNow);
+    restaurant.is_favorite = !restaurant.is_favorite;
+    changeFavElementClass(favorite, restaurant.is_favorite);
+    li.append(favorite);
+  }
+
+changeFavElementClass = (el, fav) => {
+  if (!fav) {
+    el.classlist.remove('favorite_yes');
+    el.classlist.add('favorite_no');
+    el.setAttribute('aria-label', 'mark as favorite');
+  } else {
+    console.log('toggle yes');
+    el.classlist.remove('favorite_no');
+    el.classlist.add('favorite_yes');
+    el.setAttribute('aria-label', 'remove as favorite');
+  }
+}
+
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
   li.append(neighborhood);
