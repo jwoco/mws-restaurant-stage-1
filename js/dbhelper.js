@@ -58,7 +58,7 @@ static fetchRestaurants(callback) {
       dbPromise.then(db => {
         const tx = db.transaction('reviews','readwrite');
         const reviewsStore = tx.objectStore('reviews');
-        return store.getAll();
+        return reviewsStore.getAll();
         }).then(reviews => {
         callback(null, reviews);
         console.log('Reviews', reviews);
@@ -74,7 +74,7 @@ static openDatabase() {
    return Promise.resolve();
   };
 
-  return idb.open('restaurantsdb', 1, function(upgradeDB) {
+  return idb.open('restaurantsdb', 2, function(upgradeDB) {
     const store = upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
     store.createIndex('by-id', 'id' );
     DBHelper.addRestaurantstoIDB();
@@ -117,10 +117,12 @@ static addReviewstoIDB() {
         callback(error, null);
       } else {
           dbPromise.then(db => {
-           const tx = db.transaction('reviews', 'readwrite');
-           const store = tx.objectStore('reviews');
+           //const tx = db.transaction('reviews', 'readwrite');
+           //const store = tx.objectStore('reviews');
+           const tx = db.transaction('restaurants', 'readwrite');
+           const reviewsStore = tx.objectStore('reviews');
            reviews.forEach(function (review) {
-            store.put(review);
+            reviewsStore.put(review);
             });
            return tx.complete;
           });

@@ -236,6 +236,17 @@ nav h1 a {
   position: absolute;
   width: 100%;
 }
+.fav_btn {
+  height: 24px;
+  width: 24px;
+  border: 1px;
+}
+.fav_btn favorite_no {
+  color: white;
+}
+.fav_btn favorite_yes {
+  color: green;
+}
 #restaurant-name {
   color: #f18200;
   font-family: Arial,sans-serif;

@@ -83,7 +83,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     }
     //fillReviewsHTML();
     fillReviewsHTML();
-    callback(null,review);
+    //callback(null,review);
   });
   console.log("Reviews", reviews);
 }
