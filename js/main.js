@@ -170,7 +170,7 @@ createRestaurantHTML = (restaurant) => {
   //create button for favorite - based on ideas from Elisa and Lorenzo's MWS project 3 walkthrough
   const favorite = document.createElement('button');
   favorite.innerHTML = 'fav';
-  favorite.classList.add("fav_btn")
+  favorite.classList.add('fav_btn')
   //change status on fav
   favorite.onclick = function() {
     const isFavNow = !restaurant.is_favorite;
@@ -184,13 +184,13 @@ createRestaurantHTML = (restaurant) => {
 
 changeFavElementClass = (el, fav) => {
   if (!fav) {
-    el.classlist.remove('favorite_yes');
-    el.classlist.add('favorite_no');
+    el.classlist.remove('fav_btn');
+    el.classlist.add('fav_btn_no');
     el.setAttribute('aria-label', 'mark as favorite');
   } else {
     console.log('toggle yes');
-    el.classlist.remove('favorite_no');
-    el.classlist.add('favorite_yes');
+    el.classlist.remove('fav_btn');
+    el.classlist.add('fav_btn_yes');
     el.setAttribute('aria-label', 'remove as favorite');
   }
 }

@@ -68,6 +68,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     fillRestaurantHoursHTML();
   }
   console.log('id', self.restaurant.id);
+
   // fill reviews
   //if (self.restaurant.id) {
   const id = self.restaurant.id;
@@ -130,16 +131,6 @@ fillReviewsHTML = (reviews = self.reviews) => { // change for mws3 from self.res
   container.appendChild(ul);
 }
 
-//addReviewfromForm = function() {
-  //if online, post to server
-
-
-  //if offline :
-  //createReviewHTML();
-  //save to local storage and mark as pending
-  //save to local storage
-  //return review
-//}
 
 /* Use FormData to bind to create review form in restaurant.html) and listen for new review; and then post - from MDN Using Form Data bound to form element */
 
@@ -159,7 +150,7 @@ window.addEventListener("load", function () {
     XHR.onreadystatechange = function() {
       if (this.status=400) {
         console.log("offline, saving review for re-post");
-        //save review
+        DBHelper.addTempreviewstoIDB(FD); //if offline, save new review to IDB temp reviews
       }
     }
   }
@@ -169,29 +160,9 @@ window.addEventListener("load", function () {
   form.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    //Add restaurant id to form data
-    //console.log("rest id", self.restaurant.id);
-    //form.append("restaurant_id", self.restaurant.id)
-
     sendData();
   });
 
-  //.catch (if error, then createReviewHTML with the new review data and save to localStorage)
-
-  //const data = [] => {
-    //name = form.name,
-    //rating = form.rating,
-    //comments = form.comments
-  //}
-  //const name = form.name;
-
-  //Format form data for display in app
-  /*
-  const review = [self.restaurant.id, form.name, form.rating, form.comments];
-  console.log("New review", review);
-  const json = JSON.stringify(review);
-  console.log("New review json", json);
-  createReviewHTML(json); */
 })
 
 /**

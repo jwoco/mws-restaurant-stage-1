@@ -241,10 +241,16 @@ nav h1 a {
   width: 24px;
   border: 1px;
 }
-.fav_btn favorite_no {
+.fav_btn_no {
+  height: 24px;
+  width: 24px;
+  border: 1px;
   color: white;
 }
-.fav_btn favorite_yes {
+.fav_btn_yes {
+  height: 24px;
+  width: 24px;
+  border: 1px;
   color: green;
 }
 #restaurant-name {

@@ -55,6 +55,7 @@ static fetchRestaurants(callback) {
     })
      .catch(function () {
       console.log("Looks like a problem ...");
+      console.log('reviews', reviews);
       dbPromise.then(db => {
         const tx = db.transaction('reviews','readwrite');
         const reviewsStore = tx.objectStore('reviews');
@@ -81,6 +82,9 @@ static openDatabase() {
     const reviewsStore = upgradeDB.createObjectStore('reviews', {keyPath: 'id'});
     reviewsStore.createIndex('by-id', 'id' );
     DBHelper.addReviewstoIDB();
+    const tempreviewsStore = upgradeDB.createObjectStore('tempreviews', {keyPath: 'id'});
+    tempreviewsStore.createIndex('by-id', 'id');
+    DBHelper.addTempreviewstoIDB();
   });
 
    //return idb.open('reviewsdb', 1, function(upgradeDB) {
@@ -116,10 +120,11 @@ static addReviewstoIDB() {
       if (error) {
         callback(error, null);
       } else {
+          console.log('reviews', reviews);
           dbPromise.then(db => {
-           //const tx = db.transaction('reviews', 'readwrite');
+           const tx = db.transaction('reviews', 'readwrite');
            //const store = tx.objectStore('reviews');
-           const tx = db.transaction('restaurants', 'readwrite');
+           //const tx = db.transaction('restaurants', 'readwrite');
            const reviewsStore = tx.objectStore('reviews');
            reviews.forEach(function (review) {
             reviewsStore.put(review);
@@ -128,6 +133,21 @@ static addReviewstoIDB() {
           });
         }
   });
+}
+
+// Add new reviews to temporary store in IDB for offline
+
+static addTempreviewstoIDB(tempreviews) {
+          dbPromise.then(db => {
+           const tx = db.transaction('tempreviews', 'readwrite');
+           //const store = tx.objectStore('reviews');
+           //const tx = db.transaction('restaurants', 'readwrite');
+           const tempreviewsStore = tx.objectStore('tempreviews');
+           tempreviews.forEach(function (tempreview) {
+            tempreviewsStore.put(tempreview);
+            });
+           return tx.complete;
+          });
 }
   /**
    * Fetch a restaurant by its ID.
