@@ -10,6 +10,7 @@ self.addEventListener('install', function(event) {
 		caches.open('mws-restaurants-v1').then(function(cache) {
 			return cache.addAll([
 				'/',
+				'/img',
 				'index.html',
 				'restaurant.html',
 				'manifest.json',
@@ -35,9 +36,36 @@ self.addEventListener('fetch', function(event) {
 		//event.request.mode = "no-cors";
 	//}
 	event.respondWith(
-		caches.match(event.request).then(function(response) {
-			if (response) return response;
+		caches.match(event.request)
+		.then(function(response) {
+			if (response)
+				return response;
 			return fetch(event.request);
 		})
 	)
-})
+
+		//clone the request for subsequent fetch
+
+		let fetchRequest = event.request.clone();
+
+		return fetch(fetchRequest).then(
+			function(response) {
+				//check if valid response received
+				if(!response || response.status !== 200 || response.type !== 'basic') {
+					return response;
+				}
+		//Clone the response
+		let responseToCache = response.clone();
+
+		caches.open('mws-restaurants-v1')
+			.then(function(cache) {
+				cache.put(event.request, responseToCache);
+			})
+
+		return response;
+
+		//} //end return fetch
+	//);
+	})
+	})
+	//);

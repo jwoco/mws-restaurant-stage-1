@@ -169,29 +169,53 @@ createRestaurantHTML = (restaurant) => {
 
   //create button for favorite - based on ideas from Elisa and Lorenzo's MWS project 3 walkthrough
   const favorite = document.createElement('button');
-  favorite.innerHTML = 'fav';
+  favorite.innerHTML = '&#x2665';
   favorite.classList.add('fav_btn')
   //change status on fav
+  /*
   favorite.onclick = function() {
-    const isFavNow = !restaurant.is_favorite;
+    const isFav = !restaurant.is_favorite;
     const restaurant_id = restaurant.id;
-    DBHelper.updateFav(restaurant_id, isFavNow);
+    DBHelper.updateFav(restaurant_id, isFav);
     restaurant.is_favorite = !restaurant.is_favorite;
-    changeFavElementClass(favorite, restaurant.is_favorite);
+
+    changeFavElementClass(favorite); //removed first arg - favorite
     li.append(favorite);
+ } */
+
+ favorite.onclick = function () {
+  const status = (restaurant.is_favorite.toString() === 'true') ? true:false;
+  if (restaurant.is_favorite == 'undefined') {
+    restaurant.is_favorite === false;
   }
+  DBHelper.updateFav(restaurant.id , status);
+  restaurant.is_favorite = !restaurant.is_favorite;
+  if (restaurant.is_favorite === false) {
+    //favorite.fav_btn.style.color = 'black';
+    favorite.classList.remove('fav_btn');
+    favorite.classList.add('fav_btn_no')
+  } else if (restaurant.is_favorite === true) {
+    //favorite.fav_btn.style.color = 'red';
+    favorite.classlist.remove('fav_btn');
+    favorite.classlist.remove('fav_btn_no');
+    favorite.classlist.add('fav_btn_yes');
+  }
+  favorite.setAttribute('aria-label' , status);
+ }
+
   li.append(favorite);
 
-changeFavElementClass = (el, fav) => {
+
+changeFavElementClass = (fav) => { //removed first arg - el
   if (!fav) {
-    el.classlist.remove('fav_btn');
-    el.classlist.add('fav_btn_no');
-    el.setAttribute('aria-label', 'mark as favorite');
+    favorite.classlist.remove('fav_btn'); // replace el with favorite
+    favorite.classlist.add('fav_btn_no');
+    favorite.setAttribute('aria-label', 'mark as favorite');
   } else {
     console.log('toggle yes');
-    el.classlist.remove('fav_btn');
-    el.classlist.add('fav_btn_yes');
-    el.setAttribute('aria-label', 'remove as favorite');
+    favorite.classlist.remove('fav_btn');
+    favorite.classlist.add('fav_btn_yes');
+    favorite.setAttribute('aria-label', 'remove as favorite');
   }
 }
 

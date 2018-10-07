@@ -48,23 +48,52 @@ static fetchRestaurants(callback) {
     .then(function(response) {
       return response.json();
     })
-     .then(data => {
-      const reviews = data;
+     //.then(data => {
+      //const reviews = data;
+      .then(reviews => {
+        console.log('Reviews', reviews);
+        dbPromise.then(db => {
+          const tx = db.transaction('reviews', 'readwrite');
+          const store = tx.objectStore('reviews');
+          reviews.forEach(review => {
+            console.log('putting reviews in IDB');
+            store.put(review);
+          })
+        });
+        callback(null , reviews);
+      })
+      /*
       console.log('Reviews', reviews);
+      dbPromise.then(db => {
+        const tx = db.transaction('reviews','readwrite');
+        const reviewsStore = tx.objectStore('reviews');
+        reviewsStore.put(review);
+      }).then(reviews => {
       callback(null, reviews);
-    })
+    }) */
      .catch(function () {
       console.log("Looks like a problem ...");
       console.log('reviews', reviews);
       dbPromise.then(db => {
         const tx = db.transaction('reviews','readwrite');
+        const store = tx.objectStore('reviews');
+      return store.getAll();
+    }).then(reviews => {
+      callback(null, reviews);
+      })
+    })
+
+/*
+      dbPromise.then(db => {
+        const tx = db.transaction('reviews','readwrite');
         const reviewsStore = tx.objectStore('reviews');
+        reviewsStore.put(review);
         return reviewsStore.getAll();
         }).then(reviews => {
         callback(null, reviews);
         console.log('Reviews', reviews);
-     })
-    })
+     }) */
+    //})
   }
 
 
@@ -260,8 +289,9 @@ static addTempreviewstoIDB(tempreviews) {
   }
 
 //Add favorite symbol to restaurant object on the server - based on ideas from Elisa and Lorenzo's MWS project 3 walkthrough
+  /*
   static updateFav(restaurant_id, isFavorite) {
-    console.log('change status to:', isFavorite);
+    console.log('change status to:', status);
     fetch('http://localhost:1337/restaurants/${restaurant_id}/?is_favorite = ${isFavorite}' , {
       method: 'PUT'
     })
@@ -278,6 +308,33 @@ static addTempreviewstoIDB(tempreviews) {
            });
         })
       })
+  } */
+
+  static updateFav(id, status) {
+    console.log('change status to:', status);
+    fetch("http://localhost:1337/restaurants/?restaurant.id="+id+"/?is_favorite="+status , {
+    /*
+    fetch('http://localhost:1337/restaurants/${restaurant_id}/?is_favorite = ${isFavorite}' , { */
+      method: 'PUT'
+    })
+    .then( () =>
+    {
+      this.dbPromise(db => {
+        const tx = db.transaction('restaurants' , 'readwrite');
+        const store = tx.objectStore('restaurants');
+        restaurants.forEach(restaurant => {
+          restaurant.is_favorite = status;
+          store.put(restaurant);
+        });
+        return tx.complete;
+      });
+    }).catch(function () {
+      dbPromise.then(db => {
+        const tx = db.transaction('restaurants' , 'readwrite');
+        const store = tx.objectStore('restaurants');
+        return store.getAll();
+      })
+    });
   }
 
   /**
