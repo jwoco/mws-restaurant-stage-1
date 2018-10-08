@@ -312,7 +312,8 @@ static addTempreviewstoIDB(tempreviews) {
 
   static updateFav(id, status) {
     console.log('change status to:', status);
-    fetch("http://localhost:1337/restaurants/?restaurant.id="+id+"/?is_favorite="+status , {
+    //fetch("http://localhost:1337/restaurants/?restaurant.id="+id+"/?is_favorite="+status , {
+    fetch("http://localhost:1337/restaurants/"+id+"/?is_favorite="+status , {
     /*
     fetch('http://localhost:1337/restaurants/${restaurant_id}/?is_favorite = ${isFavorite}' , { */
       method: 'PUT'

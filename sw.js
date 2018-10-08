@@ -19,9 +19,8 @@ self.addEventListener('install', function(event) {
 				'js/dbhelper.js',
 				'js/restaurant_info.js',
 				'js/idb.js',
-				'sw.js'
-			    //'normalize-css.googlecode.com/svn/trunk/normalize.css',
-				//'https://fonts.googleapis.com/css?family=Roboto:300,400,500'
+			    'normalize-css.googlecode.com/svn/trunk/normalize.css',
+				'https://fonts.googleapis.com/css?family=Roboto:300,400,500'
 				]);
 		})
 	)

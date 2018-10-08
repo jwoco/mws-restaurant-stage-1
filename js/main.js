@@ -1,7 +1,8 @@
 let restaurants,
   neighborhoods,
   cuisines,
-  reviews //add for stage 3
+  reviews, //add for stage 3
+  favorite //add for stage 3
 var map
 var markers = []
 
@@ -170,54 +171,40 @@ createRestaurantHTML = (restaurant) => {
   //create button for favorite - based on ideas from Elisa and Lorenzo's MWS project 3 walkthrough
   const favorite = document.createElement('button');
   favorite.innerHTML = '&#x2665';
-  favorite.classList.add('fav_btn')
-  //change status on fav
-  /*
-  favorite.onclick = function() {
-    const isFav = !restaurant.is_favorite;
-    const restaurant_id = restaurant.id;
-    DBHelper.updateFav(restaurant_id, isFav);
-    restaurant.is_favorite = !restaurant.is_favorite;
+  favorite.id = 'fav_id';
+  favorite.classList.add('fav_btn');
+  console.log('fav' , favorite);
+  //li.append(favorite);
 
-    changeFavElementClass(favorite); //removed first arg - favorite
-    li.append(favorite);
- } */
 
  favorite.onclick = function () {
   const status = (restaurant.is_favorite.toString() === 'true') ? true:false;
-  if (restaurant.is_favorite == 'undefined') {
-    restaurant.is_favorite === false;
+  const favorite = document.querySelector('fav_id');
+  if (status == 'undefined') {
+    status === false;
+    console.log('fav' , favorite);
   }
-  DBHelper.updateFav(restaurant.id , status);
-  restaurant.is_favorite = !restaurant.is_favorite;
-  if (restaurant.is_favorite === false) {
-    //favorite.fav_btn.style.color = 'black';
+  DBHelper.updateFav(restaurant.id , status); //replace restaurant.is_favorite with status
+  //restaurant.is_favorite = !restaurant.is_favorite;
+  console.log(status);
+
+  if (status === false) {
     favorite.classList.remove('fav_btn');
-    favorite.classList.add('fav_btn_no')
-  } else if (restaurant.is_favorite === true) {
-    //favorite.fav_btn.style.color = 'red';
-    favorite.classlist.remove('fav_btn');
-    favorite.classlist.remove('fav_btn_no');
-    favorite.classlist.add('fav_btn_yes');
+    favorite.classList.add('fav_btn_no');
+    console.log('fav' , favorite);
+  } else if (status === true) {
+    console.log('status', status);
+    console.log('fav',favorite);
+    favorite.classList.remove('fav_btn');
+    favorite.classList.remove('fav_btn_no');
+    favorite.classList.add('fav_btn_yes');
+    console.log('fav' , favorite);
   }
   favorite.setAttribute('aria-label' , status);
- }
-
-  li.append(favorite);
-
-
-changeFavElementClass = (fav) => { //removed first arg - el
-  if (!fav) {
-    favorite.classlist.remove('fav_btn'); // replace el with favorite
-    favorite.classlist.add('fav_btn_no');
-    favorite.setAttribute('aria-label', 'mark as favorite');
-  } else {
-    console.log('toggle yes');
-    favorite.classlist.remove('fav_btn');
-    favorite.classlist.add('fav_btn_yes');
-    favorite.setAttribute('aria-label', 'remove as favorite');
   }
-}
+  li.append(favorite);
+  console.log('fav' , favorite);
+
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;

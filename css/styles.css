@@ -241,18 +241,21 @@ nav h1 a {
   width: 24px;
   border: 1px;
   color: black;
+  cursor: pointer;
 }
 .fav_btn_no {
   height: 24px;
   width: 24px;
   border: 1px;
   color: black;
+  cursor: pointer;
 }
 .fav_btn_yes {
   height: 24px;
   width: 24px;
   border: 1px;
   color: red;
+  cursor: pointer;
 }
 #restaurant-name {
   color: #f18200;
@@ -317,6 +320,21 @@ nav h1 a {
 }
 #reviews-list li p {
   margin: 0 0 10px;
+}
+#comments {
+  width: 90%;
+  padding: 0 1.4em 1.4em;
+  margin-bottom: 5px;
+}
+#name {
+  width: 90%;
+  padding: 0 1.4em 1.4em;
+  margin-bottom: 5px;
+}
+#rating {
+  width: 90%;
+  padding: 0 1.4em 1.4em;
+  margin-bottom: 5px;
 }
 #restaurant-hours td {
   color: #666;
