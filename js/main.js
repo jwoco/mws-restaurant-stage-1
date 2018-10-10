@@ -177,19 +177,22 @@ createRestaurantHTML = (restaurant) => {
   //li.append(favorite);
 
 
+//Toggle favorite value when clicked and update the favorite value in the restaurant object
  favorite.onclick = function () {
   const status = (restaurant.is_favorite.toString() === 'true') ? true:false;
-  const favorite = document.querySelector('fav_id');
+  console.log('first status', status)
+  //const favorite = document.querySelectorAll('fav_id');
   if (status == 'undefined') {
     status === false;
     console.log('fav' , favorite);
   }
   DBHelper.updateFav(restaurant.id , status); //replace restaurant.is_favorite with status
-  //restaurant.is_favorite = !restaurant.is_favorite;
+  restaurant.is_favorite = !restaurant.is_favorite;
   console.log(status);
 
   if (status === false) {
     favorite.classList.remove('fav_btn');
+    favorite.classList.remove('fav_btn_yes');
     favorite.classList.add('fav_btn_no');
     console.log('fav' , favorite);
   } else if (status === true) {

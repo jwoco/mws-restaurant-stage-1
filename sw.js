@@ -4,10 +4,11 @@
 
 /* Create the cache and add resoources */
 
+var cacheName = 'mws-restaurants-v1';
 
 self.addEventListener('install', function(event) {
 	event.waitUntil(
-		caches.open('mws-restaurants-v1').then(function(cache) {
+		caches.open(cacheName).then(function(cache) {
 			return cache.addAll([
 				'/',
 				'/img',
@@ -56,7 +57,7 @@ self.addEventListener('fetch', function(event) {
 		//Clone the response
 		let responseToCache = response.clone();
 
-		caches.open('mws-restaurants-v1')
+		caches.open(cacheName)
 			.then(function(cache) {
 				cache.put(event.request, responseToCache);
 			})

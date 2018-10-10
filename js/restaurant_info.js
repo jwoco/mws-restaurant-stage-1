@@ -140,6 +140,7 @@ window.addEventListener("load", function () {
     var XHR = new XMLHttpRequest();
 
     var FD = new FormData(form);
+    console.log(FD);
 
     XHR.addEventListener("load", function(event) {
       alert(event.target.responseText);

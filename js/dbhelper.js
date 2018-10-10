@@ -167,6 +167,7 @@ static addReviewstoIDB() {
 // Add new reviews to temporary store in IDB for offline
 
 static addTempreviewstoIDB(tempreviews) {
+          console.log(tempreviews);
           dbPromise.then(db => {
            const tx = db.transaction('tempreviews', 'readwrite');
            //const store = tx.objectStore('reviews');
