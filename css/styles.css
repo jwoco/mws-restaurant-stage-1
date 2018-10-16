@@ -293,6 +293,13 @@ nav h1 a {
   width: 100%;
   box-sizing: border-box;
 }
+#reviews-form {
+  flex-wrap: wrap;
+  width: 50%;
+}
+#reviews-button {
+  cursor: pointer;
+}
 #reviews-container {
   padding: 30px 40px 80px;
 }

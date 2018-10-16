@@ -20,8 +20,9 @@ self.addEventListener('install', function(event) {
 				'js/dbhelper.js',
 				'js/restaurant_info.js',
 				'js/idb.js',
-			    'normalize-css.googlecode.com/svn/trunk/normalize.css',
-				'https://fonts.googleapis.com/css?family=Roboto:300,400,500'
+				//'sw.js'
+			    //'normalize-css.googlecode.com/svn/trunk/normalize.css'
+				//'https://fonts.googleapis.com/css?family=Roboto:300,400,500'
 				]);
 		})
 	)
@@ -31,10 +32,11 @@ self.addEventListener('install', function(event) {
 
 /* hijack the request and if offline, service the response from the cache */
 
+
 self.addEventListener('fetch', function(event) {
-	 //if(cachesUrlObj.hostname !== "localhost") {
-		//event.request.mode = "no-cors";
-	//}
+	 /* if(hostname !== "localhost") {
+		event.request.mode = "no-cors";
+	} */
 	event.respondWith(
 		caches.match(event.request)
 		.then(function(response) {
@@ -54,6 +56,7 @@ self.addEventListener('fetch', function(event) {
 				if(!response || response.status !== 200 || response.type !== 'basic') {
 					return response;
 				}
+			}
 		//Clone the response
 		let responseToCache = response.clone();
 
@@ -66,6 +69,6 @@ self.addEventListener('fetch', function(event) {
 
 		//} //end return fetch
 	//);
-	})
+	)
 	})
 	//);
