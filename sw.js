@@ -34,9 +34,9 @@ self.addEventListener('install', function(event) {
 
 
 self.addEventListener('fetch', function(event) {
-	 /* if(hostname !== "localhost") {
+	 //if(hostname !== "localhost") {
 		event.request.mode = "no-cors";
-	} */
+	//}
 	event.respondWith(
 		caches.match(event.request)
 		.then(function(response) {
@@ -56,7 +56,7 @@ self.addEventListener('fetch', function(event) {
 				if(!response || response.status !== 200 || response.type !== 'basic') {
 					return response;
 				}
-			}
+			//}
 		//Clone the response
 		let responseToCache = response.clone();
 
@@ -66,9 +66,9 @@ self.addEventListener('fetch', function(event) {
 			})
 
 		return response;
-
-		//} //end return fetch
-	//);
-	)
 	})
+		//} //end return fetch
+	})
+	//)
+	//})
 	//);

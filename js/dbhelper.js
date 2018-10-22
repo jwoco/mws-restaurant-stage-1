@@ -22,11 +22,21 @@ static fetchRestaurants(callback) {
     })
     //.then(response => response.json()) - used when data in local json file
      .then(data => {
-      //console.log('data', data);
       const restaurants = data;
       console.log('Restaurants', restaurants);
       callback(null, restaurants);
      })
+    /* .then(restaurants => {   // add restaurant to IDB
+      dbPromise.then(db => {
+           const tx = db.transaction('restaurants', 'readwrite');
+           const store = tx.objectStore('restaurants');
+           restaurants.forEach(function (restaurant) {
+            store.put(restaurant);
+            })
+           //return tx.complete;
+          });
+      callback(null, restaurants);
+     }) */
      .catch(function () {      // if no restaurants from server, get restaurants from IDB
       console.log("You are offline");
       dbPromise.then(db => {
@@ -50,7 +60,7 @@ static fetchRestaurants(callback) {
     })
      //.then(data => {
       //const reviews = data;
-      .then(reviews => {
+      .then(reviews => {        // add the review to IDB
         console.log('Reviews', reviews);
         dbPromise.then(db => {
           const tx = db.transaction('reviews', 'readwrite');
@@ -71,7 +81,7 @@ static fetchRestaurants(callback) {
       }).then(reviews => {
       callback(null, reviews);
     }) */
-     .catch(function () {
+     .catch(function () {   //if offline, pull review from IDB
       console.log("Looks like a problem ...");
       console.log('reviews', reviews);
       dbPromise.then(db => {
@@ -110,10 +120,10 @@ static openDatabase() {
     DBHelper.addRestaurantstoIDB();
     const reviewsStore = upgradeDB.createObjectStore('reviews', {keyPath: 'id'});
     reviewsStore.createIndex('by-id', 'id' );
-    DBHelper.addReviewstoIDB();
+    //DBHelper.addReviewstoIDB();
     const tempreviewsStore = upgradeDB.createObjectStore('tempreviews', {keyPath: 'id'});
     tempreviewsStore.createIndex('by-id', 'id');
-    DBHelper.addTempreviewstoIDB();
+    //DBHelper.addTempreviewstoIDB();
   });
 
    //return idb.open('reviewsdb', 1, function(upgradeDB) {
@@ -166,16 +176,18 @@ static addReviewstoIDB() {
 
 // Add new reviews to temporary store in IDB for offline
 
-static addTempreviewstoIDB(id, tempreviews) {
-          console.log('tempreviews' , newreview);
+static addTempreviewstoIDB(id, tempreview) {
+          //id = 2;
+          //tempreview = {"id":"2" , "name": "Frank" , "rating": "1" , "comments": "super"};
+          console.log('tempreviews' , tempreview);
           dbPromise.then(db => {
            const tx = db.transaction('tempreviews', 'readwrite');
            //const store = tx.objectStore('reviews');
            //const tx = db.transaction('restaurants', 'readwrite');
-           const tempreviewsStore = tx.objectStore('tempreviews');
-           tempreviews.forEach(function (tempreview) {
-            tempreviewsStore.put(tempreview);
-            });
+           const store = tx.objectStore('tempreviews');
+           //tempreviews.forEach(function (tempreview) {
+            store.put(tempreview);
+            //});
            return tx.complete;
           });
 }

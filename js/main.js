@@ -173,7 +173,7 @@ createRestaurantHTML = (restaurant) => {
   favorite.innerHTML = '&#x2665';
   favorite.id = 'fav_id';
   favorite.classList.add('fav_btn');
-  console.log('fav' , favorite);
+  //console.log('fav' , favorite);
   //li.append(favorite);
 
 
@@ -206,7 +206,7 @@ createRestaurantHTML = (restaurant) => {
   favorite.setAttribute('aria-label' , status);
   }
   li.append(favorite);
-  console.log('fav' , favorite);
+  //console.log('fav' , favorite);
 
 
   const neighborhood = document.createElement('p');

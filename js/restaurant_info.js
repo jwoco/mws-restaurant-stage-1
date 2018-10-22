@@ -141,23 +141,24 @@ window.addEventListener("load", function () {
 
     var FD = new FormData(form);
     console.log(FD);
+    //var tempreview = FormData.getAll(form);
+    //console.log("tempreview" , tempreview);
 
     XHR.addEventListener("load", function(event) {
       alert(event.target.responseText);
     })
     var id = self.restaurant.id;
-    XHR.open("POST", "http://localhost:1337/reviews/?restaurant_id="+id)
+    XHR.open("POST", "http://localhost:1337/reviews/?restaurant_id="+id);
 
     XHR.send(FD);
 
     XHR.onreadystatechange = function() {
       if (this.status=400) {
         console.log("offline, saving review for re-post");
-        tempreview = function(FD) {
-          JSON.stringify(FD);
-          return tempreview;
-        };
-        console.log(FD);
+        //var tempreview = FormData.getAll();
+        console.log("tempreview" , FD);
+        var tempreview = FormData.getAll(FD);
+        console.log("stringified tempreview" , tempreview);
         DBHelper.addTempreviewstoIDB(id, tempreview); //if offline, save new review to IDB temp reviews
       }
     }
