@@ -162,8 +162,6 @@ static addReviewstoIDB() {
           console.log('reviews', reviews);
           dbPromise.then(db => {
            const tx = db.transaction('reviews', 'readwrite');
-           //const store = tx.objectStore('reviews');
-           //const tx = db.transaction('restaurants', 'readwrite');
            const reviewsStore = tx.objectStore('reviews');
            reviews.forEach(function (review) {
             reviewsStore.put(review);
@@ -176,21 +174,21 @@ static addReviewstoIDB() {
 
 // Add new reviews to temporary store in IDB for offline
 
-static addTempreviewstoIDB(id, tempreview) {
+static addTempreviewstoIDB(tempreview) {
           //id = 2;
           //tempreview = {"id":"2" , "name": "Frank" , "rating": "1" , "comments": "super"};
-          console.log('tempreviews' , tempreview);
+          console.log('tempreview' , tempreview);
           dbPromise.then(db => {
            const tx = db.transaction('tempreviews', 'readwrite');
-           //const store = tx.objectStore('reviews');
-           //const tx = db.transaction('restaurants', 'readwrite');
-           const store = tx.objectStore('tempreviews');
+           const tempreviewsStore = tx.objectStore('tempreviews');
            //tempreviews.forEach(function (tempreview) {
-            store.put(tempreview);
+            tempreviewsStore.put(tempreview);
             //});
            return tx.complete;
-          });
-}
+          })
+  }
+
+
   /**
    * Fetch a restaurant by its ID.
    */

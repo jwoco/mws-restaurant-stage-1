@@ -155,10 +155,20 @@ window.addEventListener("load", function () {
     XHR.onreadystatechange = function() {
       if (this.status=400) {
         console.log("offline, saving review for re-post");
-        //var tempreview = FormData.getAll();
-        console.log("tempreview" , FD);
-        var tempreview = FormData.getAll(FD);
-        console.log("stringified tempreview" , tempreview);
+        //var tempreview = FormData.get(form);
+        //console.log("tempreview" , FD);
+        let id = self.restaurant.id;
+        let name = document.getElementById('name').value;
+        let rating = document.getElementById('rating').value;
+        let comments = document.getElementById('comments').value;
+        var tempreview = {
+          'id' : id,
+          'name' : JSON.stringify(name),
+          'rating': JSON.stringify(rating),
+          'comments': JSON.stringify(comments)
+          };
+        //tempreview = JSON.stringify(tempreview);
+        console.log("tempreview" , tempreview);
         DBHelper.addTempreviewstoIDB(id, tempreview); //if offline, save new review to IDB temp reviews
       }
     }
