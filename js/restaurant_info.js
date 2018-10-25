@@ -162,7 +162,7 @@ window.addEventListener("load", function () {
         let rating = document.getElementById('rating').value;
         let comments = document.getElementById('comments').value;
         var tempreview = {
-          'id' : id,
+          'restaurant_id' : id,
           'name' : JSON.stringify(name),
           'rating': JSON.stringify(rating),
           'comments': JSON.stringify(comments)
