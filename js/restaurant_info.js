@@ -163,15 +163,21 @@ window.addEventListener("load", function () {
         let comments = document.getElementById('comments').value;
         var tempreview = {
           'restaurant_id' : id,
-          'name' : JSON.stringify(name),
-          'rating': JSON.stringify(rating),
-          'comments': JSON.stringify(comments)
+          'name' : name,
+          'rating': rating,
+          'comments': comments
           };
         //tempreview = JSON.stringify(tempreview);
         console.log("tempreview" , tempreview);
-        DBHelper.addTempreviewstoIDB(id, tempreview); //if offline, save new review to IDB temp reviews
+        DBHelper.addTempreviewstoIDB(tempreview, id); //if offline, save new review to IDB temp reviews
       }
     }
+    /* XHR.onreadystatechange = function() {
+      if (this.status=200) {
+        console.log("back online, posting pending reviews");
+        DBHelper.postTempreviews();
+      }
+    } */
   }
 
   var form = document.getElementById("myReview");

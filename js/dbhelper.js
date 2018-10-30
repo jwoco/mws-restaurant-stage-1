@@ -115,16 +115,24 @@ static openDatabase() {
   };
 
   return idb.open('restaurantsdb', 2, function(upgradeDB) {
+    //switch (upgradeDb.oldVersion) {
+    //case 0:
     const store = upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
     store.createIndex('by-id', 'id' );
     DBHelper.addRestaurantstoIDB();
+
+    //case 1:
     const reviewsStore = upgradeDB.createObjectStore('reviews', {keyPath: 'id'});
     reviewsStore.createIndex('by-id', 'id' );
     //DBHelper.addReviewstoIDB();
-    const tempreviewsStore = upgradeDB.createObjectStore('tempreviews', {keyPath: 'id'});
+
+    //case 2:
+    const tempreviewsStore = upgradeDB.createObjectStore('tempreviews', {keyPath: 'restaurant_id'});
     tempreviewsStore.createIndex('by-id', 'id');
     //DBHelper.addTempreviewstoIDB();
-  });
+  })
+  //};
+
 
    //return idb.open('reviewsdb', 1, function(upgradeDB) {
     //const reviewsstore = upgradeDB.createObjectStore('reviews', {keyPath: 'id'});
@@ -174,11 +182,12 @@ static addReviewstoIDB() {
 
 // Add new reviews to temporary store in IDB for offline
 
-static addTempreviewstoIDB(tempreview) {
+static addTempreviewstoIDB(tempreview, id) {
           //id = 2;
-          //tempreview = {"id":"2" , "name": "Frank" , "rating": "1" , "comments": "super"};
+          //tempreview = {"restaurant_id":2  , "name": "Frank" , "rating": "1" , "comments": "super"};
           console.log('tempreview' , tempreview);
           dbPromise.then(db => {
+
            const tx = db.transaction('tempreviews', 'readwrite');
            const tempreviewsStore = tx.objectStore('tempreviews');
            //tempreviews.forEach(function (tempreview) {
@@ -187,6 +196,21 @@ static addTempreviewstoIDB(tempreview) {
            return tx.complete;
           })
   }
+/*
+static postTempreviews() {
+  dbPromise.then(db => {
+        const tx = db.transaction('tempreviews','readwrite');
+        const tempreviewsStore = tx.objectStore('tempreviews');
+      return tempreviewsStore.getAll();
+    })
+  .then(tempreviews => {
+    tempreviews.forEach(function (tempreview) {
+      XHR.open("POST", "http://localhost:1337/reviews/?restaurant_id="+id);
+      tempreviewsStore.delete(tempreview);
+    })
+  })
+
+} */
 
 
   /**
